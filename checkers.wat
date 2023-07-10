@@ -1,8 +1,8 @@
-(import "events" "piecemoved"
-  (func $notify_piecemoved (param $fromX i32) (param $fromY i32) (param $toX i32) (param $toY i32)))
-(import "events" "piececerowned"
-  (func $notify_piececerowned (param $pieceX i32) (param $pieceY i32)))
 (module
+  (import "events" "piecemoved"
+    (func $notify_piecemoved (param $fromX i32) (param $fromY i32) (param $toX i32) (param $toY i32)))
+  (import "events" "piececrowned"
+    (func $notify_piececrowned (param $pieceX i32) (param $pieceY i32)))
   (memory $mem 1)
 
   ;; Global values
@@ -117,7 +117,7 @@
 
   ;; Gets the current turn owner (Black or White)
   (func $getTurnOwner (result i32)
-    (local.get $currentTurn)
+      (global.get $currentTurn)
   )
 
   ;; At the end of a turn, switch turn owner to the other player
@@ -129,9 +129,9 @@
   )
 
   ;; Sets the turn owner
-  (func $setTurnOwner (param $piece i32)
-    (local.set $currentturn)
-  )
+   (func $setTurnOwner (param $piece i32)
+     (global.set $currentTurn (local.get $piece))
+   )
 
   ;; Determine if it's a player's turn
   (func $isPlayersTurn (param $player i32) (result i32)
@@ -170,7 +170,7 @@
     (call $setPiece (local.get $x) (local.get $y)
       (call $withCrown (local.get $piece)))
 
-    (call $notifiy_piececrowned (local.get $x) (local.get $y))
+    (call $notify_piececrowned (local.get $x) (local.get $y))
   )
 
   (func $distance (param $x i32) (param $y i32) (result i32)
