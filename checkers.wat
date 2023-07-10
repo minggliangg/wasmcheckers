@@ -124,7 +124,7 @@
   (func $toggleTurnOwner
     (if (i32.eq (call $getTurnOwner) (i32.const 1))
       (then (call $setTurnOwner (i32.const 2)))
-      (else (call $setTurnOwner (i32.const 2)))
+      (else (call $setTurnOwner (i32.const 1)))
     )
   )
 
@@ -162,7 +162,7 @@
     )
   )
 
-  ;; Converts a  pience into a crowned  piece and invokes a host notifier
+  ;; Converts a  pience into a crowned piece and invokes a host notifier
   (func $crownPiece (param $x i32) (param $y i32)
     (local $piece i32)
     (local.set $piece (call $getPiece (local.get $x) (local.get $y)))
